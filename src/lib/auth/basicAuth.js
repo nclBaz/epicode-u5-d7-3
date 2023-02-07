@@ -25,6 +25,8 @@ export const basicAuthMiddleware = async (req, res, next) => {
     const user = await UsersModel.checkCredentials(email, password)
     if (user) {
       // 5.a If credentials are ok --> you can go on
+      req.user = user
+      // Adding the current user to the req object is going to unlock a number of possibilities like using some subsequent middlewares to check the role of that user for instance (Authorization)
       next()
     } else {
       // 5.b If they are NOT ok --> 401
