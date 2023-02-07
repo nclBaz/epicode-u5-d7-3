@@ -15,7 +15,7 @@ usersRouter.post("/", async (req, res, next) => {
 
 usersRouter.get("/", async (req, res, next) => {
   try {
-    const users = await UsersModel.find()
+    const users = await UsersModel.find({})
     res.send(users)
   } catch (error) {
     next(error)
@@ -24,6 +24,8 @@ usersRouter.get("/", async (req, res, next) => {
 
 usersRouter.get("/:userId", async (req, res, next) => {
   try {
+    const user = await UsersModel.findById(req.params.userId)
+    res.send(user)
   } catch (error) {
     next(error)
   }
