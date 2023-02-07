@@ -1,4 +1,5 @@
 import express from "express"
+import { basicAuthMiddleware } from "../../lib/auth/basicAuth.js"
 import UsersModel from "./model.js"
 
 const usersRouter = express.Router()
@@ -13,7 +14,7 @@ usersRouter.post("/", async (req, res, next) => {
   }
 })
 
-usersRouter.get("/", async (req, res, next) => {
+usersRouter.get("/", basicAuthMiddleware, async (req, res, next) => {
   try {
     const users = await UsersModel.find({})
     res.send(users)
@@ -22,7 +23,7 @@ usersRouter.get("/", async (req, res, next) => {
   }
 })
 
-usersRouter.get("/:userId", async (req, res, next) => {
+usersRouter.get("/:userId", basicAuthMiddleware, async (req, res, next) => {
   try {
     const user = await UsersModel.findById(req.params.userId)
     res.send(user)
@@ -30,14 +31,14 @@ usersRouter.get("/:userId", async (req, res, next) => {
     next(error)
   }
 })
-usersRouter.put("/:userId", async (req, res, next) => {
+usersRouter.put("/:userId", basicAuthMiddleware, async (req, res, next) => {
   try {
   } catch (error) {
     next(error)
   }
 })
 
-usersRouter.delete("/:userId", async (req, res, next) => {
+usersRouter.delete("/:userId", basicAuthMiddleware, async (req, res, next) => {
   try {
   } catch (error) {
     next(error)
